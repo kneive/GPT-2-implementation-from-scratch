@@ -1,0 +1,5 @@
+# venv
+.llm/
+
+# vs code
+.vscode/
