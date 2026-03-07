@@ -15,7 +15,15 @@ project/
 │   │
 │   ├──dataset
 │   │
-│   └──tokenizer
+│   ├──feedForward
+│   │
+│   ├──gptModel
+│   │
+│   ├──tokenizer
+│   │
+│   ├──transformerBlock
+│   │
+│   └──utils
 │
 ├──tests
 │   │
@@ -32,3 +40,8 @@ project/
 
 ## Attention mechanism
 
+## Feed forward
+
+## Transformer block
+
+## GPT model
