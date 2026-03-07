@@ -10,8 +10,25 @@ This project is a full implementation of a **generative pretrained transformer**
 project/
 │
 ├──src
+│   │
+│   ├──attention
+│   │
+│   ├──dataset
+│   │
+│   └──tokenizer
+│
+├──tests
+│   │
+│   ├──dataset_test
+│   │
+│   └──tokenizer_test
 │
 └──README.md
 ```
 
+## SimpleTokenizer
+
+## Dataset and Dataloader
+
+## Attention mechanism
 
