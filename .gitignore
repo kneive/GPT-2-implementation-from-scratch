@@ -1,5 +1,8 @@
 # venv
 .llm/
 
+# pycache
+__pycache__
+
 # vs code
 .vscode/
