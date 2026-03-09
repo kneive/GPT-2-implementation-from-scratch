@@ -31,7 +31,7 @@ class MultiHeadAttention(torch.nn.Module):
         values = values.view(b, num_tokens, self.num_heads, self.head_dim)
         queries = queries.view(b, num_tokens, self.num_heads, self.head_dim)
 
-        keys = keys.traspose(1,2)
+        keys = keys.transpose(1,2)
         queries = queries.transpose(1,2)
         values = values.transpose(1,2)
 
