@@ -52,6 +52,22 @@ def test_batch_sizes():
     output = mha(x8)
     assert output.shape == (8,10,64)
 
+def test_sequence_lengths():
+    mha = MultiHeadAttention(d_in=64, d_out=64, context_length=100,
+                             dropout=0.1, num_heads=4)
+    
+    short = torch.randn(2,5,64)
+    output_short = mha(short)
+    assert output_short.shape == (2,5,64)
+
+    medium = torch.randn(2,30,64)
+    output_medium = mha(medium)
+    assert output_medium.shape == (2,30,64)
+
+    max = torch.randn(2,100,64)
+    output_max = mha(max)
+    assert output_max.shape == (2,100,64)
+
 def test_single_token():
     mha = MultiHeadAttention(d_in=64, d_out=64, context_length=100,
                              dropout=0.1, num_heads=4)
@@ -122,3 +138,35 @@ def test_mask_structure():
     assert mha.mask[1,0] == 0
     assert mha.mask[4,0] == 0
     assert mha.mask[3,2] == 0
+
+def test_gradient_flow():
+    mha = MultiHeadAttention(d_in=64, d_out=64, context_length=10,
+                             dropout=0.1, num_heads=4)
+    
+    x = torch.randn(2,5,64, requires_grad=True)
+    output = mha(x)
+    loss = output.sum()
+    loss.backward()
+
+    assert x.grad is not None
+    assert mha.W_query.weight.grad is not None
+    assert mha.W_key.weight.grad is not None
+    assert mha.W_value.weight.grad is not None
+
+def test_input_output_diff():
+    mha = MultiHeadAttention(d_in=128, d_out=256, context_length=10,
+                             dropout=0.1, num_heads=8)
+    
+    x = torch.randn(2,5,128)
+    output = mha(x)
+    assert output.shape == (2,5,256)
+
+def test_heads():
+    for num_heads in [1,2,4,8,16]:
+        d_out = 64
+        mha = MultiHeadAttention(d_in=64, d_out=d_out, context_length=10,
+                                 dropout=0.1, num_heads=num_heads)
+        x = torch.randn(2,5,64)
+        output = mha(x)
+        assert output.shape == (2,5,d_out)
+        assert mha.head_dim == d_out // num_heads
