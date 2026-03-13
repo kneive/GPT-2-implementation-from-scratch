@@ -1,12 +1,12 @@
 import torch.nn as nn
-import utils
+from .utils import GELU
 
 class FeedForward(nn.Module):
     def __init__(self, cfg):
-        super().__init()
+        super().__init__()
         self.layers = nn.Sequential(
             nn.Linear(cfg["embedding_dimension"], 4 * cfg["embedding_dimension"]),
-            utils.GELU(),
+            GELU(),
             nn.Linear(4*cfg["embedding_dimension"], cfg["embedding_dimension"]),
         )
 
